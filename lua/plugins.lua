@@ -15,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Set up plugins
 require("lazy").setup({
   { "folke/tokyonight.nvim", config = function() vim.cmd("colorscheme tokyonight-night") end }, -- neovim theme
-  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, }, -- bottom statusline
+  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons", "AndreM222/copilot-lualine" }, }, -- bottom statusline
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" }, 
     config = function() require("nvim-tree").setup({ view = { width = 30 } }) end }, -- file explorer
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function() end }, -- nvim enhancer for various languages
