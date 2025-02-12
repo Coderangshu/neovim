@@ -15,8 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Set up plugins
 require("lazy").setup({
   { "folke/tokyonight.nvim", config = function() vim.cmd("colorscheme tokyonight-night") end }, -- neovim theme
-  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function() require("lualine").setup({ options = { theme = "tokyonight" } }) end }, -- bottom statusline
+  { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, }, -- bottom statusline
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" }, 
     config = function() require("nvim-tree").setup({ view = { width = 30 } }) end }, -- file explorer
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function() end }, -- nvim enhancer for various languages
@@ -25,5 +24,7 @@ require("lazy").setup({
     config = function() require('telescope').setup{} end }, -- reference finder
   { "akinsho/toggleterm.nvim", config = function() require("toggleterm").setup {} end }, -- terminal at bottom
   { "stevearc/aerial.nvim", dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, }, -- code outline
+  { "zbirenbaum/copilot.lua" }, -- github copilot
+  { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline", "L3MON4D3/LuaSnip" }, },
 })
 
