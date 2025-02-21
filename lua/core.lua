@@ -34,6 +34,8 @@ vim.o.showmatch = true -- Show matching brackets
 vim.o.wildmenu = true -- Enable command-line completion menu
 vim.o.wildmode = 'list:longest' -- Bash-like completion
 vim.o.wildignore = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx' -- Ignore certain file types
+vim.o.showtabline = 2 -- Show tab on top always
+vim.opt.termguicolors = true -- Use terminal colors
 
 -- Folding
 vim.o.foldmethod = 'expr' -- Set folding method to syntax
