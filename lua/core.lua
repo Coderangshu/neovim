@@ -5,6 +5,7 @@ vim.cmd('filetype indent on') -- Load indent files for detected file types
 vim.cmd('syntax on') -- Turn syntax highlighting on
 vim.g.mapleader = " " -- Set the leader key to a space
 vim.o.laststatus = 2 -- Always show status line
+vim.o.mousemoveevent = true -- Capture mouse movement
 
 -- Line numbers and cursor
 vim.o.relativenumber = true -- Show relative line numbers

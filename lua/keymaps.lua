@@ -32,6 +32,8 @@ end
 keymap('n', '<C-o>', ":lua toggle_nvim_tree()<CR>", { noremap = true, silent = true }) -- Open Tree
 keymap("n", "<C-`>", ":ToggleTerm<CR>", { noremap = true, silent = true }) -- ToggleTerm Open
 keymap("t", "<C-`>", "<C-\\><C-n>:ToggleTerm<CR>", { noremap = true, silent = true }) -- ToggleTerm Open
+keymap("n", "<C-b>", ":bdelete<CR>", { noremap = true, silent = true })
+
 
 -- copy paste shortcuts
 keymap('v', '<C-c>', '"+y', { noremap = true, silent = true }) -- For copy to system
