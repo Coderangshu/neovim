@@ -65,3 +65,11 @@ for i = 1, 9 do
   keymap("n", "<C-" .. i .. ">", ":BufferLineGoToBuffer " .. i .. "<CR>", { noremap = true, silent = true, desc = "Switch to Tab " .. i })
 end
 
+-- Register TAB key for autocompletion if suggestion is visible, otherwise insert TAB
+keymap("i", "<Tab>", function()
+  if require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept()
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n", false)
+  end
+end, { silent = true })
