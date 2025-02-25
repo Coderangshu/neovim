@@ -9,9 +9,7 @@ wk.add({
   { "<leader>l", group = "LSP" },  -- LSP commands
   { "<leader>t", group = "Terminal" }, -- Terminal-related commands
   { "<leader>q", group = "Quickfix" }, -- Quickfix commands
-}) -- Applies to all <leader> mappings
-
-local keymap = vim.keymap.set
+}) 
 
 local function get_nvim_tree_win()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -41,22 +39,36 @@ function toggle_nvim_tree()
   end
 end
 
-keymap("t", "<C-`>", "<C-\\><C-n>:ToggleTerm<CR>", { noremap = true, silent = true }) -- ToggleTerm Open
+-- TAB key behavior:
+-- If suggection is visible, autocomplete
+-- Else insert TAB space
+local function tab_key()
+  if require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept()
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n", false)
+  end
+end
+
+local keymap = vim.keymap.set
 
 local mappings = {
   -- Basic Tools
   { "<C-o>", ":lua toggle_nvim_tree()<CR>", desc = "Open Tree" },
-  { "<C-`>", ":ToggleTerm<CR>", desc = "Toggle Terminal" },
+  { "<C-`>", ":ToggleTerm<CR>", desc = "Toggle(Close) Terminal" },
+  { "<C-`>", "<C-\\><C-n>:ToggleTerm<CR>", desc = "Toggle(Open) Terminal", mode = "t" },
   { "<C-b>", ":bdelete<CR>", desc = "Close Tab" },
   { "<C-s>", ":w<CR>", desc = "Save File" },
   { "<C-A-s>", ":w | bd<CR>", desc = "Save and Close Buffer" },
+  { "<leader>a", "<cmd>AerialToggle!<CR>", desc = "Aerial Toggle"},
 
   -- copy paste shortcuts
-  { "<C-c>", '"+y', mode = "v", desc = "Copy to System Clipboard" },
+  { "<C-c>", '"+y', desc = "Copy to System Clipboard", mode = "v" },
   { "<C-a>", "ggVG", desc = "Select All" },
   { "<C-p>", '"o<Esc>"+p', desc = "Paste from Clipboard" },
 
   -- Key mappings for quickfix navigation
+  { "<leader>qa", ":lua vim.lsp.buf.code_action()<CR>", desc = "Quickfix Actions" },
   { "<leader>qo", ":copen<CR>", desc = "Open Quickfix List" },
   { "<leader>qc", ":cclose<CR>", desc = "Close Quickfix List" },
   { "<leader>qn", ":cnext<CR>", desc = "Next Error/Warning" },
@@ -69,6 +81,7 @@ local mappings = {
 
   -- Key mappings for copilot
   { "<leader>ct", ":Copilot toggle<CR>", desc = "Toggle Copilot" },
+  { "<Tab>", tab_key, desc = "Accept Changes", mode = "i" },
 }
 
 -- Register key mappings
@@ -81,11 +94,3 @@ for i = 1, 9 do
   keymap("n", "<C-" .. i .. ">", ":BufferLineGoToBuffer " .. i .. "<CR>", { noremap = true, silent = true, desc = "Switch to Tab " .. i })
 end
 
--- Register TAB key for autocompletion if suggestion is visible, otherwise insert TAB
-keymap("i", "<Tab>", function()
-  if require("copilot.suggestion").is_visible() then
-    require("copilot.suggestion").accept()
-  else
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n", false)
-  end
-end, { silent = true })
