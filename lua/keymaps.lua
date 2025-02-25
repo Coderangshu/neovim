@@ -1,4 +1,16 @@
 local wk = require("which-key")
+
+wk.add({
+  { "<leader>b", group = "Buffer" }, -- Groups all Buffer-related mappings under "b"
+  { "<leader>c", group = "Copilot" }, -- Groups all Copilot-related mappings under "c"
+  { "<leader>d", group = "Debug" }, -- Debugging tools
+  { "<leader>f", group = "Find" }, -- For Telescope, file searching, etc.
+  { "<leader>g", group = "Git" },  -- Groups all Git-related mappings under "g"
+  { "<leader>l", group = "LSP" },  -- LSP commands
+  { "<leader>t", group = "Terminal" }, -- Terminal-related commands
+  { "<leader>q", group = "Quickfix" }, -- Quickfix commands
+}) -- Applies to all <leader> mappings
+
 local keymap = vim.keymap.set
 
 local function get_nvim_tree_win()
@@ -50,9 +62,13 @@ local mappings = {
   { "<leader>qn", ":cnext<CR>", desc = "Next Error/Warning" },
   { "<leader>qp", ":cprev<CR>", desc = "Previous Error/Warning" },
 
-  -- Key mappings for git stage and unstage
-  { "<leader>gs", ":Gitsigns stage_hunk<CR>", desc = "Stage Change" },
+  -- Key mappings for git 
+  { "<leader>gs", ":Gitsigns show<CR>", desc = "Show Status" },
+  { "<leader>ga", ":Gitsigns stage_hunk<CR>", desc = "Stage Change" },
   { "<leader>gu", ":Gitsigns undo_stage_hunk<CR>", desc = "Undo Stage Change" },
+
+  -- Key mappings for copilot
+  { "<leader>ct", ":Copilot toggle<CR>", desc = "Toggle Copilot" },
 }
 
 -- Register key mappings

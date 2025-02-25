@@ -1,11 +1,5 @@
 require('gitsigns').setup {
---  signs = {
---    add          = { text = '+' },
---    change       = { text = '~' },
---    delete       = { text = '-' },
---    topdelete    = { text = '‾' },
---    changedelete = { text = '~' },
---  },
+  auto_attach = true, -- Automatically attach to buffer (optional)
   numhl = true,  -- Highlight line numbers
   linehl = false, -- Highlight changed lines (optional)
   watch_gitdir = { interval = 1000, follow_files = true },
