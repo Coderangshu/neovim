@@ -60,7 +60,11 @@ local mappings = {
   { "<C-b>", ":bdelete<CR>", desc = "Close Tab" },
   { "<C-s>", ":w<CR>", desc = "Save File" },
   { "<C-A-s>", ":w | bd<CR>", desc = "Save and Close Buffer" },
+
+  -- Aerial key mappings
   { "<leader>a", "<cmd>AerialToggle!<CR>", desc = "Aerial Toggle"},
+  { "{", "<cmd>AerialPrev<CR>", desc = "Previous Segment" },
+  { "}", "<cmd>AerialNext<CR>", desc = "Next Segment" },
 
   -- copy paste shortcuts
   { "<C-c>", '"+y', desc = "Copy to System Clipboard", mode = "v" },
@@ -86,7 +90,7 @@ local mappings = {
 
 -- Register key mappings
 for _, map in ipairs(mappings) do
-  keymap(map.mode or "n", map[1], map[2], { noremap = true, silent = true, desc = map.desc })
+  keymap(map.mode or "n", map[1], map[2], { noremap = true, silent = true, buffer = bufnr, desc = map.desc })
 end
 
 -- Register keys for tabs switching (Ctrl + Number)

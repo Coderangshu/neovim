@@ -15,6 +15,21 @@ lspconfig.ts_ls.setup { on_attach = on_attach }
 lspconfig.cssls.setup { on_attach = on_attach }
 lspconfig.html.setup { on_attach = on_attach }
 lspconfig.jdtls.setup { on_attach = on_attach }
+lspconfig.rust_analyzer.setup { on_attach = on_attach }
+lspconfig.lua_ls.setup {
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },  -- Use LuaJIT for Neovim
+      diagnostics = { globals = { "vim" } },  -- Recognize the `vim` global
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,  -- Avoid third-party library prompts
+      },
+      telemetry = { enable = false },
+    },
+  },
+}
 
 -- Enable LSP-based formatting on save
 vim.api.nvim_create_autocmd("BufWritePre", {
