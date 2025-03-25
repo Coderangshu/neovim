@@ -1,0 +1,7 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "bufnr",
+        "toggle_nvim_tree"
+    ]
+}
