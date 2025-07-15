@@ -71,23 +71,27 @@ local mappings = {
     { "<C-a>",      "ggVG",                                              desc = "Select All" },
     { "<C-p>",      '"o<Esc>"+p',                                        desc = "Paste from Clipboard" },
 
-    -- Key mappings for quickfix navigation
+    -- quickfix navigation
     { "<leader>qa", ":lua vim.lsp.buf.code_action()<CR>",                desc = "Quickfix Actions" },
     { "<leader>qo", ":copen<CR>",                                        desc = "Open Quickfix List" },
     { "<leader>qc", ":cclose<CR>",                                       desc = "Close Quickfix List" },
     { "<leader>qn", ":cnext<CR>",                                        desc = "Next Error/Warning" },
     { "<leader>qp", ":cprev<CR>",                                        desc = "Previous Error/Warning" },
 
-    -- Key mappings for git
+    -- git
     { "<leader>gs", ":Gitsigns show<CR>",                                desc = "Show Status" },
     { "<leader>ga", ":Gitsigns stage_hunk<CR>",                          desc = "Stage Change" },
     { "<leader>gu", ":Gitsigns undo_stage_hunk<CR>",                     desc = "Undo Stage Change" },
     { "<leader>gd", ":lua require(\"gitsigns\").diffthis(\"HEAD\")<CR>", desc = "Show diff with prev commit" },
     { "<leader>gp", ":Gitsigns preview_hunk<CR>",                        desc = "Preview current hunk diffs" },
 
-    -- Key mappings for copilot
+    -- copilot
     { "<leader>ct", ":Copilot toggle<CR>",                               desc = "Toggle Copilot" },
     { "<Tab>",      tab_key,                                             desc = "Accept Changes",            mode = "i" },
+
+    -- Comment
+    { "<C-c>", function() require("Comment.api").toggle.linewise.current() end, desc = "Toggle Comment", mode = "n" },
+    { "<C-c>", function() local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true) vim.api.nvim_feedkeys(esc, "x", false) require("Comment.api").toggle.linewise(vim.fn.visualmode()) end, desc = "Toggle Comment", mode = "v" },
 }
 
 -- Register key mappings

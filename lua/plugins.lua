@@ -30,5 +30,6 @@ require("lazy").setup({
   {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', config = function() require("bufferline").setup{} end },
   {'lewis6991/gitsigns.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }, 
   { "folke/which-key.nvim", config = function() require("which-key").setup() end },
+  { "numToStr/Comment.nvim", config = function() require('Comment').setup() end },
 })
 
