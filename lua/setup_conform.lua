@@ -22,7 +22,25 @@ require("conform").setup({
   },
 })
 
-local formatters_to_check = {
+-- Map filetypes to binaries
+local ft_to_bin = {
+  lua = "stylua",
+  python = "black",
+  javascript = "prettier",
+  typescript = "prettier",
+  typescriptreact = "prettier",
+  javascriptreact = "prettier",
+  css = "prettier",
+  html = "prettier",
+  json = "prettier",
+  c = "clang_format",
+  cpp = "clang_format",
+  java = "clang_format",
+  rust = "rustfmt",
+}
+
+-- Map binaries to descriptions
+local bin_desc = {
   stylua = "Lua formatter",
   black = "Python formatter",
   prettier = "JS/TS/CSS/HTML/JSON formatter",
@@ -30,13 +48,14 @@ local formatters_to_check = {
   rustfmt = "Rust formatter",
 }
 
-for bin, desc in pairs(formatters_to_check) do
-  if vim.fn.executable(bin) == 0 then
-    vim.notify(string.format(
-      "[Conform] %s (%s) not found in PATH! Install it to enable formatting.",
-      bin, desc
-    ), vim.log.levels.WARN)
-  end
+-- Notify only for the current buffer's filetype
+local ft = vim.bo.filetype
+local bin = ft_to_bin[ft]
+if bin and vim.fn.executable(bin) == 0 then
+  vim.notify(string.format(
+    "[Conform] %s (%s) not found in PATH! Install it to enable formatting for %s files.",
+    bin, bin_desc[bin] or bin, ft
+  ), vim.log.levels.WARN)
 end
 
 -- Force formatters to 4 spaces
