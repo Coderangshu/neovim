@@ -26,10 +26,11 @@ require("lazy").setup({
   { "stevearc/aerial.nvim", dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     config = function() require("aerial").setup() end }, -- code outline
   { "zbirenbaum/copilot.lua" }, -- github copilot
-  { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline", "L3MON4D3/LuaSnip" }, },
-  {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', config = function() require("bufferline").setup{} end },
-  {'lewis6991/gitsigns.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }, 
-  { "folke/which-key.nvim", config = function() require("which-key").setup() end },
-  { "numToStr/Comment.nvim", config = function() require('Comment').setup() end },
+  { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline", "L3MON4D3/LuaSnip" }, }, -- autocompletion
+  {'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', config = function() require("bufferline").setup{} end }, -- buffer line
+  {'lewis6991/gitsigns.nvim', dependencies = { 'nvim-lua/plenary.nvim' }, config = function() require('gitsigns').setup() end }, -- git integration
+  { "folke/which-key.nvim", config = function() require("which-key").setup() end }, -- keybinding helper
+  { "numToStr/Comment.nvim", config = function() require('Comment').setup() end }, -- easy commenting
+  { "stevearc/conform.nvim" }, -- Formatter manager
 })
 
