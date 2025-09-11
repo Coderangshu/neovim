@@ -9,7 +9,23 @@ local opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set("n", "<C-.>", vim.lsp.buf.code_action, opts)
 end
 
-lspconfig.clangd.setup { on_attach = on_attach }
+lspconfig.clangd.setup {
+  on_attach = on_attach,
+  cmd = { "clangd", "--background-index", "--all-scopes-completion" },
+  init_options = {
+    fallbackFlags = {
+      "-std=c++14",
+      "-I/opt/homebrew/Cellar/gcc/15.1.0/include/c++/15",
+      "-I/opt/homebrew/Cellar/gcc/15.1.0/include/c++/15/aarch64-apple-darwin24",
+      "-I/opt/homebrew/Cellar/gcc/15.1.0/include/c++/15/backward",
+      "-I/opt/homebrew/Cellar/gcc/15.1.0/lib/gcc/current/gcc/aarch64-apple-darwin24/15/include",
+      "-I/opt/homebrew/Cellar/gcc/15.1.0/lib/gcc/current/gcc/aarch64-apple-darwin24/15/include-fixed",
+      "-I/Library/Developer/CommandLineTools/SDKs/MacOSX15.sdk/usr/include",
+      "-I/Library/Developer/CommandLineTools/SDKs/MacOSX15.sdk/System/Library/Frameworks",
+    },
+  },
+}
+
 lspconfig.pyright.setup { on_attach = on_attach }
 lspconfig.ts_ls.setup { on_attach = on_attach }
 lspconfig.cssls.setup { on_attach = on_attach }
