@@ -16,6 +16,12 @@ vim.o.cursorline = true     -- Highlight the current line
 vim.o.shiftwidth = 4   -- Set shift width to 4 spaces
 vim.o.tabstop = 4      -- Set tab width to 4 columns
 vim.o.expandtab = true -- Use spaces instead of tabs
+vim.o.autoindent = true -- Auto-indent new lines
+vim.o.smartindent = true -- Smart indentation
+vim.o.smarttab = true   -- Smart tabbing
+vim.o.softtabstop = 4   -- Number of spaces a <Tab> counts for while performing editing operations
+vim.o.cindent = true    -- Enable C-style indentation
+vim.o.indentexpr = '' -- Use custom C indentation function
 
 -- Backup and scrolling
 vim.o.backup = false -- Do not save backup files
@@ -36,7 +42,7 @@ vim.o.wildmenu = true                                                           
 vim.o.wildmode = 'list:longest'                                                    -- Bash-like completion
 vim.o.wildignore = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx' -- Ignore certain file types
 vim.o.showtabline = 2                                                              -- Show tab on top always
-vim.opt.termguicolors = true                                                       -- Use terminal colors
+vim.o.termguicolors = true                                                       -- Use terminal colors
 
 -- Folding
 vim.o.foldmethod = 'expr'                  -- Set folding method to syntax
@@ -46,13 +52,13 @@ vim.o.foldlevel = 99                       -- Set fold level to 99
 vim.o.viewoptions = "folds,options,cursor" -- Ensure folds are saved
 
 -- Remember previous fold state
-vim.cmd([[
-  augroup RememberFolds
-    autocmd!
-    autocmd BufWinLeave * silent! mkview
-    autocmd BufWinEnter * silent! loadview
-  augroup END
-]])
+-- vim.cmd([[
+--   augroup RememberFolds
+--     autocmd!
+--     autocmd BufWinLeave * silent! mkview
+--     autocmd BufWinEnter * silent! loadview
+--   augroup END
+-- ]])
 
 
 -- Remember cursor position
@@ -64,3 +70,14 @@ vim.api.nvim_create_autocmd('BufReadPost', {
         end
     end,
 })
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost", "TextChanged", "TextChangedI" }, {
+    callback = function()
+        if vim.wo.foldmethod == "expr" and vim.wo.foldexpr == "nvim_treesitter#foldexpr()" then
+            vim.schedule(function()
+                vim.cmd("silent! zx")
+            end)
+        end
+    end,
+})
+
