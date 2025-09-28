@@ -4,6 +4,7 @@ require("keymaps")
 
 -- Plugin Specific
 require("setup_bufferline")
+require("setup_conform")
 require("setup_copilot")
 require("setup_gitsigns")
 require("setup_lsp")
