@@ -1,74 +1,106 @@
--- Basic settings
-vim.cmd('filetype on')        -- Enable file type detection
-vim.cmd('filetype plugin on') -- Enable plugins for detected file types
-vim.cmd('filetype indent on') -- Load indent files for detected file types
-vim.cmd('syntax on')          -- Turn syntax highlighting on
-vim.g.mapleader = " "         -- Set the leader key to a space
-vim.o.laststatus = 2          -- Always show status line
-vim.o.mousemoveevent = true   -- Capture mouse movement
+-- core.lua
+-- This file contains the core editor settings for Neovim.
 
--- Line numbers and cursor
-vim.o.relativenumber = true -- Show relative line numbers
-vim.o.number = true         -- Show absolute line number for the current line
-vim.o.cursorline = true     -- Highlight the current line
+-- -----------------------------------------------------------------------------
+-- Basic Editor Settings
+-- -----------------------------------------------------------------------------
 
+-- Set the leader key to space. The leader key is used for custom shortcuts.
+vim.g.mapleader = " "
+
+-- Filetype detection and syntax highlighting
+vim.cmd('filetype plugin indent on') -- Enable filetype detection, plugins, and indentation.
+vim.cmd('syntax on')                 -- Enable syntax highlighting.
+
+-- Enable true color support for a richer color palette in the terminal.
+vim.o.termguicolors = true
+
+-- -----------------------------------------------------------------------------
+-- UI and Appearance
+-- -----------------------------------------------------------------------------
+
+vim.o.number = true         -- Show absolute line numbers.
+vim.o.relativenumber = true -- Show relative line numbers for easier vertical movement.
+vim.o.cursorline = true     -- Highlight the line the cursor is on.
+
+vim.o.scrolloff = 8         -- Keep at least 8 lines visible above and below the cursor when scrolling.
+vim.o.wrap = false          -- Disable line wrapping to keep long lines on a single line.
+
+vim.o.laststatus = 2        -- Always display the status line.
+vim.o.showcmd = true        -- Show the command you are typing in the bottom-right corner.
+vim.o.showmatch = true      -- Briefly jump to matching brackets.
+vim.o.showmode = false      -- Hide the default mode text (e.g., -- INSERT --) as a status line plugin will handle it.
+
+-- -----------------------------------------------------------------------------
 -- Indentation
-vim.o.shiftwidth = 4   -- Set shift width to 4 spaces
-vim.o.tabstop = 4      -- Set tab width to 4 columns
-vim.o.expandtab = true -- Use spaces instead of tabs
-vim.o.autoindent = true -- Auto-indent new lines
-vim.o.smartindent = true -- Smart indentation
-vim.o.smarttab = true   -- Smart tabbing
-vim.o.softtabstop = 4   -- Number of spaces a <Tab> counts for while performing editing operations
-vim.o.cindent = true    -- Enable C-style indentation
-vim.o.indentexpr = '' -- Use custom C indentation function
+-- -----------------------------------------------------------------------------
 
--- Backup and scrolling
-vim.o.backup = false -- Do not save backup files
-vim.o.scrolloff = 10 -- Keep 10 lines above/below the cursor when scrolling
-vim.o.wrap = false   -- Do not wrap lines
+vim.o.expandtab = true      -- Use spaces instead of tab characters.
+vim.o.tabstop = 4           -- Number of visual spaces per tab.
+vim.o.shiftwidth = 4        -- Number of spaces to use for each step of indentation.
+vim.o.softtabstop = 4       -- Number of spaces a <Tab> counts for while editing.
+vim.o.autoindent = true     -- Copy indent from the current line when starting a new line.
+vim.o.smartindent = true    -- Be smarter about indentation for new lines.
 
--- Search
-vim.o.incsearch = true  -- Incremental search
-vim.o.ignorecase = true -- Ignore case in search
-vim.o.smartcase = true  -- Case-sensitive search if uppercase is used
-vim.o.hlsearch = true   -- Highlight search results
+-- -----------------------------------------------------------------------------
+-- Search Settings
+-- -----------------------------------------------------------------------------
 
--- UI
-vim.o.showcmd = true                                                               -- Show partial command in the last line
-vim.o.showmode = false                                                             -- Do not show mode (handled by lightline)
-vim.o.showmatch = true                                                             -- Show matching brackets
-vim.o.wildmenu = true                                                              -- Enable command-line completion menu
-vim.o.wildmode = 'list:longest'                                                    -- Bash-like completion
-vim.o.wildignore = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx' -- Ignore certain file types
-vim.o.showtabline = 2                                                              -- Show tab on top always
-vim.o.termguicolors = true                                                       -- Use terminal colors
+vim.o.hlsearch = true       -- Highlight all search matches.
+vim.o.incsearch = true      -- Show search matches incrementally as you type.
+vim.o.ignorecase = true     -- Ignore case when searching...
+vim.o.smartcase = true      -- ...unless the search pattern contains an uppercase letter.
 
--- Folding
-vim.o.foldmethod = 'expr'                  -- Set folding method to syntax
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldenable = true                    -- Enable folding
-vim.o.foldlevel = 99                       -- Set fold level to 99
-vim.o.viewoptions = "folds,options,cursor" -- Ensure folds are saved
+-- -----------------------------------------------------------------------------
+-- File and Backup Settings
+-- -----------------------------------------------------------------------------
 
--- Remember previous fold state
--- vim.cmd([[
---   augroup RememberFolds
---     autocmd!
---     autocmd BufWinLeave * silent! mkview
---     autocmd BufWinEnter * silent! loadview
---   augroup END
--- ]])
+vim.o.backup = false        -- Do not create backup files.
+vim.o.swapfile = false      -- Do not create swap files.
+vim.o.undofile = true       -- Enable persistent undo history.
 
+-- -----------------------------------------------------------------------------
+-- Autocmds (Automatic Commands)
+-- -----------------------------------------------------------------------------
 
--- Remember cursor position
+-- Remember cursor position in files
 vim.api.nvim_create_autocmd('BufReadPost', {
-    pattern = '*',
-    callback = function()
-        if vim.fn.line("'\"") > 1 and vim.fn.line("'\"") <= vim.fn.line('$') then
-            vim.cmd('normal! g`"')
-        end
-    end,
+  pattern = '*',
+  callback = function()
+    -- Check if the mark '\"' (last exit position) is valid
+    if vim.fn.line("'\"") > 1 and vim.fn.line("'\"") <= vim.fn.line('$') then
+      -- Go to the last known cursor position
+      vim.cmd('normal! g`"')
+    end
+  end,
+  desc = "Restore cursor to last known position"
+})
+
+
+-- NOTE: Folding is best enabled within your nvim-treesitter plugin config.
+-- In your treesitter setup file, ensure you have:
+--
+-- require('nvim-treesitter.configs').setup({
+--   -- ... other settings
+--   fold = {
+--     enable = true,
+--   },
+-- })
+--
+-- The autocmd below fixes the issue where folds are not calculated on file load.
+
+local fold_group = vim.api.nvim_create_augroup("MyFoldSettings", { clear = true })
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = fold_group,
+  pattern = "*",
+  callback = function()
+    -- The fix is here: vim.wo (window option) instead of vim.bo (buffer option).
+    -- 'foldmethod' is a window-local setting.
+    if vim.wo.foldmethod == 'expr' then
+      vim.cmd('normal! zX')
+    end
+  end,
+  desc = "Update Treesitter folds on file open"
 })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost", "TextChanged", "TextChangedI" }, {
