@@ -147,13 +147,22 @@ local mappings = {
     { "<Tab>", tab_key, desc = "Accept Changes", mode = "i" },
 
     -- Comment
-    { "<C-'>", function() require("Comment.api").toggle.linewise.current() end,
-      desc = "Toggle Comment", mode = "n" },
-    { "<C-'>", function()
-        local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
-        vim.api.nvim_feedkeys(esc, "x", false)
-        require("Comment.api").toggle.linewise(vim.fn.visualmode())
-    end, desc = "Toggle Comment", mode = "v" },
+    {
+        "<C-'>",
+        function() require("Comment.api").toggle.linewise.current() end,
+        desc = "Toggle Comment",
+        mode = "n"
+    },
+    {
+        "<C-'>",
+        function()
+            local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
+            vim.api.nvim_feedkeys(esc, "x", false)
+            require("Comment.api").toggle.linewise(vim.fn.visualmode())
+        end,
+        desc = "Toggle Comment",
+        mode = "v"
+    },
 }
 
 -- register mappings
@@ -170,3 +179,5 @@ for i = 1, 9 do
     })
 end
 
+-- Smart <C-w> that works from terminals too
+keymap("t", "<C-w>", "<C-\\><C-n><C-w>", { desc = "Window commands from terminal" })
