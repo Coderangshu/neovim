@@ -1,4 +1,4 @@
-require("nvim-treesitter.configs").setup({
+require("nvim-treesitter.config").setup({
     ensure_installed = { "c", "cpp", "lua", "python", "javascript", "typescript", "bash", "json", "html", "css", "rust" },
     sync_install = true,
     highlight = { enable = true },

@@ -35,29 +35,29 @@ vim.o.showmode = false      -- Hide the default mode text (e.g., -- INSERT --) a
 -- Indentation
 -- -----------------------------------------------------------------------------
 
-vim.o.expandtab = true      -- Use spaces instead of tab characters.
-vim.o.tabstop = 4           -- Number of visual spaces per tab.
-vim.o.shiftwidth = 4        -- Number of spaces to use for each step of indentation.
-vim.o.softtabstop = 4       -- Number of spaces a <Tab> counts for while editing.
-vim.o.autoindent = true     -- Copy indent from the current line when starting a new line.
-vim.o.smartindent = true    -- Be smarter about indentation for new lines.
+vim.o.expandtab = true   -- Use spaces instead of tab characters.
+vim.o.tabstop = 4        -- Number of visual spaces per tab.
+vim.o.shiftwidth = 4     -- Number of spaces to use for each step of indentation.
+vim.o.softtabstop = 4    -- Number of spaces a <Tab> counts for while editing.
+vim.o.autoindent = true  -- Copy indent from the current line when starting a new line.
+vim.o.smartindent = true -- Be smarter about indentation for new lines.
 
 -- -----------------------------------------------------------------------------
 -- Search Settings
 -- -----------------------------------------------------------------------------
 
-vim.o.hlsearch = true       -- Highlight all search matches.
-vim.o.incsearch = true      -- Show search matches incrementally as you type.
-vim.o.ignorecase = true     -- Ignore case when searching...
-vim.o.smartcase = true      -- ...unless the search pattern contains an uppercase letter.
+vim.o.hlsearch = true   -- Highlight all search matches.
+vim.o.incsearch = true  -- Show search matches incrementally as you type.
+vim.o.ignorecase = true -- Ignore case when searching...
+vim.o.smartcase = true  -- ...unless the search pattern contains an uppercase letter.
 
 -- -----------------------------------------------------------------------------
 -- File and Backup Settings
 -- -----------------------------------------------------------------------------
 
-vim.o.backup = false        -- Do not create backup files.
-vim.o.swapfile = false      -- Do not create swap files.
-vim.o.undofile = true       -- Enable persistent undo history.
+vim.o.backup = false   -- Do not create backup files.
+vim.o.swapfile = false -- Do not create swap files.
+vim.o.undofile = true  -- Enable persistent undo history.
 
 -- -----------------------------------------------------------------------------
 -- Autocmds (Automatic Commands)
@@ -65,15 +65,15 @@ vim.o.undofile = true       -- Enable persistent undo history.
 
 -- Remember cursor position in files
 vim.api.nvim_create_autocmd('BufReadPost', {
-  pattern = '*',
-  callback = function()
-    -- Check if the mark '\"' (last exit position) is valid
-    if vim.fn.line("'\"") > 1 and vim.fn.line("'\"") <= vim.fn.line('$') then
-      -- Go to the last known cursor position
-      vim.cmd('normal! g`"')
-    end
-  end,
-  desc = "Restore cursor to last known position"
+    pattern = '*',
+    callback = function()
+        -- Check if the mark '\"' (last exit position) is valid
+        if vim.fn.line("'\"") > 1 and vim.fn.line("'\"") <= vim.fn.line('$') then
+            -- Go to the last known cursor position
+            vim.cmd('normal! g`"')
+        end
+    end,
+    desc = "Restore cursor to last known position"
 })
 
 
@@ -91,16 +91,16 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 local fold_group = vim.api.nvim_create_augroup("MyFoldSettings", { clear = true })
 vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = fold_group,
-  pattern = "*",
-  callback = function()
-    -- The fix is here: vim.wo (window option) instead of vim.bo (buffer option).
-    -- 'foldmethod' is a window-local setting.
-    if vim.wo.foldmethod == 'expr' then
-      vim.cmd('normal! zX')
-    end
-  end,
-  desc = "Update Treesitter folds on file open"
+    group = fold_group,
+    pattern = "*",
+    callback = function()
+        -- The fix is here: vim.wo (window option) instead of vim.bo (buffer option).
+        -- 'foldmethod' is a window-local setting.
+        if vim.wo.foldmethod == 'expr' then
+            vim.cmd('normal! zX')
+        end
+    end,
+    desc = "Update Treesitter folds on file open"
 })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost", "TextChanged", "TextChangedI" }, {
@@ -113,3 +113,16 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost", "TextCh
     end,
 })
 
+-- Setup clipboard integration using OSC 52 for remote sessions. This allows you to
+-- copy and paste between Neovim and your system clipboard even when connected via SSH.
+vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+        ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    },
+}
