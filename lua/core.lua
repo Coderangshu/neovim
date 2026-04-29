@@ -126,3 +126,6 @@ vim.g.clipboard = {
         ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
     },
 }
+
+-- Enable the built-in LSP client for Bash files using the bashls (Bash Language Server).
+vim.lsp.enable('bashls')
