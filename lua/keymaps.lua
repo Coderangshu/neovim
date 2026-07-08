@@ -125,7 +125,22 @@ local mappings = {
 
     -- Copy/paste
     { "<C-c>", '"+y', desc = "Copy to System Clipboard", mode = "v" },
-    { "<C-a>", "ggVG", desc = "Select All" },
+    {
+        "<C-a>",
+        function()
+            local pos = vim.api.nvim_win_get_cursor(0)
+            vim.cmd("normal! ggVG")
+            vim.api.nvim_create_autocmd("ModeChanged", {
+                pattern = "[vV\22]*:n",
+                once = true,
+                callback = function()
+                    pos[1] = math.min(pos[1], vim.api.nvim_buf_line_count(0))
+                    vim.api.nvim_win_set_cursor(0, pos)
+                end,
+            })
+        end,
+        desc = "Select All",
+    },
     { "<C-p>", '"o<Esc>"+p', desc = "Paste from Clipboard" },
 
     -- Quickfix
