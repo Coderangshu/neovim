@@ -59,4 +59,5 @@ require("lazy").setup({
     { "numToStr/Comment.nvim",                   config = function() require('Comment').setup() end },          -- easy commenting
     { "stevearc/conform.nvim" },                                                                                -- Formatter manager
     { "nvim-treesitter/nvim-treesitter-context", config = function() require("setup_treesitter-context") end }, -- Show current function at top of window
+    { "christoomey/vim-tmux-navigator",          init = function() vim.g.tmux_navigator_no_mappings = 1 end },  -- seamless nvim/tmux pane nav
 })
