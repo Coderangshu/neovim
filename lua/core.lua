@@ -31,6 +31,9 @@ vim.o.showcmd = true        -- Show the command you are typing in the bottom-rig
 vim.o.showmatch = true      -- Briefly jump to matching brackets.
 vim.o.showmode = false      -- Hide the default mode text (e.g., -- INSERT --) as a status line plugin will handle it.
 
+vim.o.splitright = true     -- Open vertical splits to the right.
+vim.o.splitbelow = true     -- Open horizontal splits below.
+
 -- -----------------------------------------------------------------------------
 -- Indentation
 -- -----------------------------------------------------------------------------

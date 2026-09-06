@@ -197,13 +197,15 @@ end
 -- Smart <C-w> that works from terminals too
 keymap("t", "<C-w>", "<C-\\><C-n><C-w>", { desc = "Window commands from terminal" })
 
--- Pane nav w/ ctrl+hjkl, single key, seamless across tmux panes too (vim-tmux-navigator)
-keymap("n", "<C-h>", ":TmuxNavigateLeft<CR>", { desc = "Go to left pane" })
-keymap("n", "<C-j>", ":TmuxNavigateDown<CR>", { desc = "Go to below pane" })
-keymap("n", "<C-k>", ":TmuxNavigateUp<CR>", { desc = "Go to above pane" })
-keymap("n", "<C-l>", ":TmuxNavigateRight<CR>", { desc = "Go to right pane" })
+-- Pane nav w/ ctrl+shift+hjkl, single key, seamless across tmux panes too (vim-tmux-navigator)
+-- must match tmux-side C-S- binds.
+keymap("n", "<C-S-h>", ":TmuxNavigateLeft<CR>", { desc = "Go to left pane" })
+keymap("n", "<C-S-j>", ":TmuxNavigateDown<CR>", { desc = "Go to below pane" })
+keymap("n", "<C-S-k>", ":TmuxNavigateUp<CR>", { desc = "Go to above pane" })
+keymap("n", "<C-S-l>", ":TmuxNavigateRight<CR>", { desc = "Go to right pane" })
 
-keymap("t", "<C-h>", "<C-\\><C-n>:TmuxNavigateLeft<CR>", { desc = "Go to left pane" })
-keymap("t", "<C-j>", "<C-\\><C-n>:TmuxNavigateDown<CR>", { desc = "Go to below pane" })
-keymap("t", "<C-k>", "<C-\\><C-n>:TmuxNavigateUp<CR>", { desc = "Go to above pane" })
-keymap("t", "<C-l>", "<C-\\><C-n>:TmuxNavigateRight<CR>", { desc = "Go to right pane" })
+keymap("t", "<C-S-h>", "<C-\\><C-n>:TmuxNavigateLeft<CR>", { desc = "Go to left pane" })
+keymap("t", "<C-S-j>", "<C-\\><C-n>:TmuxNavigateDown<CR>", { desc = "Go to below pane" })
+keymap("t", "<C-S-k>", "<C-\\><C-n>:TmuxNavigateUp<CR>", { desc = "Go to above pane" })
+keymap("t", "<C-S-l>", "<C-\\><C-n>:TmuxNavigateRight<CR>", { desc = "Go to right pane" })
+

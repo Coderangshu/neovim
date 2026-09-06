@@ -60,4 +60,5 @@ require("lazy").setup({
     { "stevearc/conform.nvim" },                                                                                -- Formatter manager
     { "nvim-treesitter/nvim-treesitter-context", config = function() require("setup_treesitter-context") end }, -- Show current function at top of window
     { "christoomey/vim-tmux-navigator",          init = function() vim.g.tmux_navigator_no_mappings = 1 end },  -- seamless nvim/tmux pane nav
+    { "nvim-zh/colorful-winsep.nvim",            config = true, event = { "WinLeave" } },                        -- highlight active split border
 })
